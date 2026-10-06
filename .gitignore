@@ -1,0 +1,7 @@
+build/
+build-release/
+build-public/
+dist/
+xcuserdata/
+*.xcuserstate
+.DS_Store
