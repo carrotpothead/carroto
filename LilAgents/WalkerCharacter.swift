@@ -1062,6 +1062,7 @@ class WalkerCharacter {
         trickPlayer.seek(to: .zero)
         show(trickLayer)
         trickPlayer.play()
+        onTrick?(video)   // (his dog joins in with the yoga, however it started)
     }
 
     private func playClip(_ name: String, then: (() -> Void)? = nil) {
@@ -1087,13 +1088,12 @@ class WalkerCharacter {
         standStill()
     }
 
-    /// told when he starts a trick (his dog joins in with the yoga)
+    /// told whenever he starts a one-off clip (his dog joins in with the yoga)
     var onTrick: ((String) -> Void)?
 
     private func startTrick() {
         guard let trick = tricks.randomElement() else { startWalk(); return }
         playOnce(trick.video, duration: trick.duration)
-        onTrick?(trick.video)
     }
 
     /// Cut a one-off clip short (e.g. he's been picked up).

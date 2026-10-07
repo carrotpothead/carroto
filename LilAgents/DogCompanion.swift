@@ -93,7 +93,8 @@ final class DogCompanion {
 
     private func joinYoga() {
         let now = CACurrentMediaTime()
-        guard !walking, now >= eatingUntil, catchAt == .infinity, now >= trickUntil else { return }
+        guard now >= eatingUntil, catchAt == .infinity, now >= trickUntil else { return }
+        walking = false                                         // (stops where he is to join in)
         trickUntil = now + 9.4
         trickDoing = "doing yoga with you (downward dog, obviously, then upward dog)"
         play("yoga", fromStart: true)
