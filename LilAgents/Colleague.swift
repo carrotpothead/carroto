@@ -312,6 +312,44 @@ final class Colleague {
         if let until = focusUntil, Date() >= until { endFocus(done: true) }
         if isWatching { return }
         welcomeBack(away: away)
+        yogaTick(now: now, away: away)
+    }
+
+    // MARK: yoga breaks
+
+    private var activeSince: CFTimeInterval = CACurrentMediaTime()
+    private var stretchNudged = false
+    private var yogaSnoozeUntil: CFTimeInterval = 0
+
+    /// ~50 minutes of work without a 5-minute break: he offers a yoga break.
+    private func yogaTick(now: CFTimeInterval, away: CFTimeInterval) {
+        guard YogaBreak.isAvailable else { return }
+        let yoga = YogaBreak.shared
+        if away > 300 { activeSince = now; stretchNudged = false }
+        guard !yoga.isRunning, !yoga.invite.isOpen, !ask.isOpen, !isFocusing, away < 30,
+              now >= yogaSnoozeUntil, !YogaBreak.declinedToday else { return }
+        if YogaBreak.remindAfterWork, !stretchNudged, now - activeSince > YogaBreak.workMinutes * 60 {
+            stretchNudged = true
+            offerYoga(title: "\(Int(YogaBreak.workMinutes)) minutes straight. stretch with me?", detail: "5 minutes, in your chair. \(Profile.dogName)'s coming too.")
+        }
+    }
+
+    private func offerYoga(title: String, detail: String) {
+        guard let c = carrot else { return }
+        c.playCompletionSound()
+        YogaBreak.shared.invite.show(title: title, detail: detail, above: c.window.frame) { [weak self] answer in
+            guard let self, let c = self.carrot else { return }
+            switch answer {
+            case .go: YogaBreak.shared.start(with: c)
+            case .later: self.yogaSnoozeUntil = CACurrentMediaTime() + 600; self.stretchNudged = false; c.say("ok! i'll ask again in 10.", for: 3)
+            case .notToday: YogaBreak.declinedToday = true; c.say("no worries. tomorrow 🥕", for: 3)
+            }
+        }
+    }
+
+    /// after a break: the work clock starts again
+    func yogaDone() {
+        activeSince = CACurrentMediaTime(); stretchNudged = false; yogaSnoozeUntil = 0
     }
 
     // MARK: focusing together

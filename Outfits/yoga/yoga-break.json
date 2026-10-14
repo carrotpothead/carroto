@@ -1,0 +1,299 @@
+{
+ "length": 321,
+ "poses": [
+  {
+   "pose": "arrive",
+   "at": 0.0,
+   "hold": 30
+  },
+  {
+   "pose": "reach",
+   "at": 30.0,
+   "hold": 20
+  },
+  {
+   "pose": "sideL",
+   "at": 50.0,
+   "hold": 20
+  },
+  {
+   "pose": "sideR",
+   "at": 70.0,
+   "hold": 20
+  },
+  {
+   "pose": "chest",
+   "at": 90.0,
+   "hold": 20
+  },
+  {
+   "pose": "cactus",
+   "at": 110.0,
+   "hold": 20
+  },
+  {
+   "pose": "neckL",
+   "at": 130.0,
+   "hold": 20
+  },
+  {
+   "pose": "neckR",
+   "at": 150.0,
+   "hold": 20
+  },
+  {
+   "pose": "fold",
+   "at": 170.0,
+   "hold": 25
+  },
+  {
+   "pose": "figR",
+   "at": 195.0,
+   "hold": 20
+  },
+  {
+   "pose": "twistR",
+   "at": 215.0,
+   "hold": 20
+  },
+  {
+   "pose": "figL",
+   "at": 235.0,
+   "hold": 20
+  },
+  {
+   "pose": "twistL",
+   "at": 255.0,
+   "hold": 20
+  },
+  {
+   "pose": "close",
+   "at": 275.0,
+   "hold": 31
+  },
+  {
+   "pose": "end",
+   "at": 306.0,
+   "hold": 15.0
+  }
+ ],
+ "dig": [
+  {
+   "clip": "rest",
+   "at": 0,
+   "loop": true
+  },
+  {
+   "clip": "yoga",
+   "at": 171.0,
+   "loop": false
+  },
+  {
+   "clip": "idle",
+   "at": 180.4,
+   "loop": true
+  },
+  {
+   "clip": "rest",
+   "at": 195.0,
+   "loop": true
+  },
+  {
+   "clip": "sleep",
+   "at": 277.0,
+   "loop": true
+  },
+  {
+   "clip": "idle",
+   "at": 306.0,
+   "loop": true
+  }
+ ],
+ "subtitles": [
+  {
+   "at": 2.0,
+   "until": 10.54,
+   "text": "Hey! Let's take five together. Sit tall, feet flat on the floor\u2026 and close your eyes if you like."
+  },
+  {
+   "at": 19.0,
+   "until": 27.71,
+   "text": "Only go as far as feels good. Breathe in\u2026 and let it all go."
+  },
+  {
+   "at": 30.6,
+   "until": 35.22,
+   "text": "Reach both arms up. Big reach! Leaves up."
+  },
+  {
+   "at": 41.0,
+   "until": 42.98,
+   "text": "Breathe into the stretch."
+  },
+  {
+   "at": 50.6,
+   "until": 54.75,
+   "text": "Now lean over to the left. Long and easy."
+  },
+  {
+   "at": 61.0,
+   "until": 63.05,
+   "text": "Feel your side open up."
+  },
+  {
+   "at": 70.6,
+   "until": 72.5,
+   "text": "And over to the right."
+  },
+  {
+   "at": 81.0,
+   "until": 83.61,
+   "text": "Nice. Breathe."
+  },
+  {
+   "at": 90.6,
+   "until": 95.3,
+   "text": "Hands behind your head, elbows wide. Open up your chest."
+  },
+  {
+   "at": 101.0,
+   "until": 103.3,
+   "text": "Lift your gaze a little."
+  },
+  {
+   "at": 110.6,
+   "until": 116.75,
+   "text": "Arms out like a little cactus\u2026 gently squeeze your shoulder blades together."
+  },
+  {
+   "at": 121.0,
+   "until": 126.74,
+   "text": "And soften. Squeeze\u2026 and soften."
+  },
+  {
+   "at": 130.6,
+   "until": 135.22,
+   "text": "Drop your left ear toward your shoulder. No rush."
+  },
+  {
+   "at": 141.0,
+   "until": 143.3,
+   "text": "Let your shoulders melt down."
+  },
+  {
+   "at": 150.6,
+   "until": 152.74,
+   "text": "And the other side."
+  },
+  {
+   "at": 161.0,
+   "until": 163.14,
+   "text": "Breathe out the day."
+  },
+  {
+   "at": 170.6,
+   "until": 178.91,
+   "text": "Now fold forward, slowly. Let your arms hang. Dig's doing his downward dog."
+  },
+  {
+   "at": 183.5,
+   "until": 185.96,
+   "text": "Let your head be heavy."
+  },
+  {
+   "at": 195.6,
+   "until": 201.18,
+   "text": "Sit up slowly. Cross your right ankle over your left knee."
+  },
+  {
+   "at": 206.0,
+   "until": 207.74,
+   "text": "Reach up tall."
+  },
+  {
+   "at": 215.6,
+   "until": 221.34,
+   "text": "Now twist toward that knee\u2026 and look over your shoulder."
+  },
+  {
+   "at": 226.0,
+   "until": 230.61,
+   "text": "Breathe in tall\u2026 and twist a little more as you breathe out."
+  },
+  {
+   "at": 235.6,
+   "until": 239.34,
+   "text": "Switch sides. Left ankle over your right knee."
+  },
+  {
+   "at": 246.0,
+   "until": 247.91,
+   "text": "Reach up."
+  },
+  {
+   "at": 255.6,
+   "until": 258.62,
+   "text": "And twist. Look back over your shoulder."
+  },
+  {
+   "at": 266.0,
+   "until": 267.91,
+   "text": "One more breath here."
+  },
+  {
+   "at": 275.6,
+   "until": 281.9,
+   "text": "Feet back on the floor. Hands on your thighs. Close your eyes."
+  },
+  {
+   "at": 282.3,
+   "until": 284.85,
+   "text": "Three slow breaths with me."
+  },
+  {
+   "at": 287.0,
+   "until": 289.31,
+   "text": "Breathe in\u2026"
+  },
+  {
+   "at": 290.0,
+   "until": 291.35,
+   "text": "and out\u2026"
+  },
+  {
+   "at": 293.0,
+   "until": 294.5,
+   "text": "In\u2026"
+  },
+  {
+   "at": 296.0,
+   "until": 298.3,
+   "text": "and out\u2026"
+  },
+  {
+   "at": 298.3,
+   "until": 301.08,
+   "text": "Last one. In\u2026"
+  },
+  {
+   "at": 302.0,
+   "until": 304.14,
+   "text": "and all the way out."
+  },
+  {
+   "at": 306.5,
+   "until": 311.1,
+   "text": "Now slowly open your eyes. That's it, you did it!"
+  },
+  {
+   "at": 311.1,
+   "until": 313.9,
+   "text": "Back to work you go, nice and easy."
+  },
+  {
+   "at": 313.9,
+   "until": 319.93,
+   "text": "Remember to stretch now and then\u2026 and I'll come find you when it's time for another break. \ud83e\udd55"
+  }
+ ]
+}

@@ -84,6 +84,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         focusItem.submenu = focusMenu
         menu.addItem(focusItem)
 
+        // the yoga break: start one now, and whether he should offer one
+        let yogaItem = NSMenuItem(title: "Yoga Break", action: nil, keyEquivalent: "")
+        let yogaMenu = NSMenu()
+        let yogaNow = NSMenuItem(title: "Start Now (5 min)", action: #selector(startYoga), keyEquivalent: ""); yogaNow.target = self
+        yogaMenu.addItem(yogaNow)
+        yogaMenu.addItem(NSMenuItem.separator())
+        let afterWork = NSMenuItem(title: "Offer One After 50 Min of Work", action: #selector(toggleYogaAfterWork(_:)), keyEquivalent: ""); afterWork.target = self
+        afterWork.state = YogaBreak.remindAfterWork ? .on : .off
+        yogaMenu.addItem(afterWork)
+        yogaItem.submenu = yogaMenu
+        if YogaBreak.isAvailable { menu.addItem(yogaItem) }
+
         let outfitItem = NSMenuItem(title: "Outfit", action: nil, keyEquivalent: "")
         let outfitMenu = NSMenu()
         for (i, o) in Outfit.allCases.enumerated() where o.isAvailable {
@@ -287,6 +299,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func startFocus(_ sender: NSMenuItem) { controller?.characters.first?.colleague.startFocus(minutes: sender.tag) }
+    @objc func startYoga() { if let c = controller?.characters.first { YogaBreak.shared.start(with: c) } }
+    @objc func toggleYogaAfterWork(_ sender: NSMenuItem) { YogaBreak.remindAfterWork.toggle(); sender.state = YogaBreak.remindAfterWork ? .on : .off }
     @objc func setUpQuiet() { controller?.characters.first?.setUpQuietFocus() }
     @objc func wearOutfit(_ sender: NSMenuItem) { controller?.characters.first?.wear(Outfit.allCases[sender.tag]) }
     @objc func renameHim() { controller?.characters.first?.renameMe() }

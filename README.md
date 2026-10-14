@@ -39,6 +39,10 @@ macOS 14 or later, Apple silicon or Intel.
   shows it with **allow / deny** right there on the dock, and when a long task is done he says which chat
   finished. Works with Claude Code, Codex, Cursor and Gemini CLI hooks. Your original settings are backed up and
   restored when you turn it off.
+- **takes yoga breaks with you** (new in 1.1): after about 50 minutes of work he asks "stretch with me?" (let's go,
+  in 10, or not today: it's an invitation, never a block). Say yes and the screen frosts over while he and Dig lead a
+  5-minute chair stretch with his voice and subtitles. Esc ends it any time. Menu bar → *Yoga Break* to start one
+  now or turn the reminder off.
 - **keeps you company**: a focus timer (25 or 50 minutes) that hides chatty apps, plus an optional DND mode;
   a lunch alarm; and when a video's playing he turns round with his popcorn and watches it with you.
 - **has a dog**: Dig follows him, wags, lies down while carroto is busy, sleeps when he naps, does a trick every

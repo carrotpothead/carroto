@@ -1285,6 +1285,7 @@ class WalkerCharacter {
             item("focus with me (50 min)") { [weak self] in self?.colleague.startFocus(minutes: 50) }
         }
         item(colleague.isWatching ? "stop watching" : "watch with me 🍿") { [weak self] in self?.perform("watch") }
+        if YogaBreak.isAvailable { item("yoga break with me (5 min) 🧘") { [weak self] in if let self { YogaBreak.shared.start(with: self) } } }
         // you and me: names, looks, quiet focus
         menu.addItem(.separator())
         item("rename me…") { [weak self] in self?.renameMe() }
