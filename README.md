@@ -65,7 +65,7 @@ Everything stays on your Mac. Chats go through your own CLI and account. The too
 - Fonts: Bricolage Grotesque and Gochi Hand, under the SIL Open Font License (see [FONTS-LICENSE.txt](FONTS-LICENSE.txt)).
 - Made with [Claude](https://claude.ai).
 
-Follow his adventures: **[@agentcarroto](https://www.instagram.com/agentcarroto)** on Instagram.
+Follow his adventures: **[@hi.carroto](https://www.instagram.com/hi.carroto)** on Instagram.
 
 ## License
 
