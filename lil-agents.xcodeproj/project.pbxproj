@@ -25,6 +25,10 @@
 		A100000100000000000000A1 /* doze-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000A1 /* doze-carrot-01.mov */; };
 		A100000100000000000000A0 /* lunch-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000A0 /* lunch-carrot-01.mov */; };
 		A1000001000000000000009F /* yoga-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A1000002000000000000009F /* yoga-carrot-01.mov */; };
+		A100000100000000000000D5 /* far-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000D5 /* far-carrot-01.mov */; };
+		A100000100000000000000D6 /* cactus-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000D6 /* cactus-carrot-01.mov */; };
+		A100000100000000000000D7 /* sitin-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000D7 /* sitin-carrot-01.mov */; };
+		A100000100000000000000D8 /* sitout-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000D8 /* sitout-carrot-01.mov */; };
 		A1000001000000000000009E /* water-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A1000002000000000000009E /* water-carrot-01.mov */; };
 		A1000001000000000000009D /* idle-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A1000002000000000000009D /* idle-carrot-01.mov */; };
 		A100000100000000000000CD /* feed-carrot-01.mov in Resources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000CD /* feed-carrot-01.mov */; };
@@ -36,6 +40,7 @@
 		A100000100000000000000CA /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000CA /* Profile.swift */; };
 		A100000100000000000000CC /* DogCompanion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000CC /* DogCompanion.swift */; };
 		A100000100000000000000D3 /* YogaBreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000D3 /* YogaBreak.swift */; };
+		A100000100000000000000D4 /* Resets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000D4 /* Resets.swift */; };
 		A100000100000000000000C9 /* ClaudeWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000C9 /* ClaudeWatcher.swift */; };
 		A100000100000000000000B0 /* Colleague.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000200000000000000B0 /* Colleague.swift */; };
 		A10000010000000000000022 /* ClaudeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000020000000000000022 /* ClaudeSession.swift */; };
@@ -71,6 +76,10 @@
 		A100000200000000000000A1 /* doze-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "doze-carrot-01.mov"; sourceTree = "<group>"; };
 		A100000200000000000000A0 /* lunch-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "lunch-carrot-01.mov"; sourceTree = "<group>"; };
 		A1000002000000000000009F /* yoga-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "yoga-carrot-01.mov"; sourceTree = "<group>"; };
+		A100000200000000000000D5 /* far-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "far-carrot-01.mov"; sourceTree = "<group>"; };
+		A100000200000000000000D6 /* cactus-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "cactus-carrot-01.mov"; sourceTree = "<group>"; };
+		A100000200000000000000D7 /* sitin-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "sitin-carrot-01.mov"; sourceTree = "<group>"; };
+		A100000200000000000000D8 /* sitout-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "sitout-carrot-01.mov"; sourceTree = "<group>"; };
 		A1000002000000000000009E /* water-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "water-carrot-01.mov"; sourceTree = "<group>"; };
 		A1000002000000000000009D /* idle-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "idle-carrot-01.mov"; sourceTree = "<group>"; };
 		A100000200000000000000CD /* feed-carrot-01.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "feed-carrot-01.mov"; sourceTree = "<group>"; };
@@ -84,6 +93,7 @@
 		A100000200000000000000CA /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		A100000200000000000000CC /* DogCompanion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogCompanion.swift; sourceTree = "<group>"; };
 		A100000200000000000000D3 /* YogaBreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YogaBreak.swift; sourceTree = "<group>"; };
+		A100000200000000000000D4 /* Resets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resets.swift; sourceTree = "<group>"; };
 		A100000200000000000000C9 /* ClaudeWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeWatcher.swift; sourceTree = "<group>"; };
 		A100000200000000000000B0 /* Colleague.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colleague.swift; sourceTree = "<group>"; };
 		A10000020000000000000022 /* ClaudeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeSession.swift; sourceTree = "<group>"; };
@@ -130,6 +140,7 @@
 				A100000200000000000000CA /* Profile.swift */,
 				A100000200000000000000CC /* DogCompanion.swift */,
 				A100000200000000000000D3 /* YogaBreak.swift */,
+				A100000200000000000000D4 /* Resets.swift */,
 				A100000200000000000000C9 /* ClaudeWatcher.swift */,
 				A100000200000000000000B0 /* Colleague.swift */,
 				A10000020000000000000030 /* AgentSession.swift */,
@@ -161,6 +172,10 @@
 				A100000200000000000000A1 /* doze-carrot-01.mov */,
 				A100000200000000000000A0 /* lunch-carrot-01.mov */,
 				A1000002000000000000009F /* yoga-carrot-01.mov */,
+				A100000200000000000000D5 /* far-carrot-01.mov */,
+				A100000200000000000000D6 /* cactus-carrot-01.mov */,
+				A100000200000000000000D7 /* sitin-carrot-01.mov */,
+				A100000200000000000000D8 /* sitout-carrot-01.mov */,
 				A1000002000000000000009E /* water-carrot-01.mov */,
 				A1000002000000000000009D /* idle-carrot-01.mov */,
 				A100000200000000000000CD /* feed-carrot-01.mov */,
@@ -256,6 +271,10 @@
 				A100000100000000000000A1 /* doze-carrot-01.mov in Resources */,
 				A100000100000000000000A0 /* lunch-carrot-01.mov in Resources */,
 				A1000001000000000000009F /* yoga-carrot-01.mov in Resources */,
+				A100000100000000000000D5 /* far-carrot-01.mov in Resources */,
+				A100000100000000000000D6 /* cactus-carrot-01.mov in Resources */,
+				A100000100000000000000D7 /* sitin-carrot-01.mov in Resources */,
+				A100000100000000000000D8 /* sitout-carrot-01.mov in Resources */,
 				A1000001000000000000009E /* water-carrot-01.mov in Resources */,
 				A1000001000000000000009D /* idle-carrot-01.mov in Resources */,
 				A100000100000000000000CD /* feed-carrot-01.mov in Resources */,
@@ -277,6 +296,7 @@
 				A100000100000000000000CA /* Profile.swift in Sources */,
 				A100000100000000000000CC /* DogCompanion.swift in Sources */,
 				A100000100000000000000D3 /* YogaBreak.swift in Sources */,
+				A100000100000000000000D4 /* Resets.swift in Sources */,
 				A100000100000000000000C9 /* ClaudeWatcher.swift in Sources */,
 				A100000100000000000000B0 /* Colleague.swift in Sources */,
 				A10000010000000000000031 /* AgentSession.swift in Sources */,
@@ -423,7 +443,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.carrotpothead.carroto;
 				PRODUCT_NAME = carroto;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -451,7 +471,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.carrotpothead.carroto;
 				PRODUCT_NAME = carroto;

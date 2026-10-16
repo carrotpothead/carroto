@@ -65,6 +65,7 @@ enum Outfit: String, CaseIterable {
     static func url(_ name: String) -> URL? {
         Bundle.main.url(forResource: name, withExtension: "mov", subdirectory: "Outfits/\(current.rawValue)")
             ?? Bundle.main.url(forResource: name, withExtension: "mov")
+            ?? Bundle.main.url(forResource: name, withExtension: "mov", subdirectory: "Outfits/classic")   // (a clip only the classic look has)
     }
 }
 

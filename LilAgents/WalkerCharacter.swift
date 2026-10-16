@@ -1223,6 +1223,7 @@ class WalkerCharacter {
     /// For the menu: do something now.
     func perform(_ name: String) {
         guard !isIdleForPopover, !isBeingDragged else { return }
+        if name == "land", colleague.isResetting { return }   // (a startled hop would cut a 30-second reset short)
         if isAsleep { wakeUp() ; return }
         isWalking = false
         isPaused = true
@@ -1237,6 +1238,8 @@ class WalkerCharacter {
             faceTheScreen()
             playClip("watchin") { [weak self] in self?.playLoop("watch") }
         case "watchout": playClip("watchout")
+        // a 30-second reset on his stool (sitting down and getting up are their own clips)
+        case "far", "cactus": playClip("sitin") { [weak self] in self?.playClip(name) { self?.playClip("sitout") } }
         case "watch": colleague.isWatching ? colleague.stopWatching() : colleague.startWatching(byHand: true)
         default:
             if let t = tricks.first(where: { $0.video.hasPrefix(name) }) { playOnce(t.video, duration: t.duration) }

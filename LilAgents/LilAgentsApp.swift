@@ -96,6 +96,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         yogaItem.submenu = yogaMenu
         if YogaBreak.isAvailable { menu.addItem(yogaItem) }
 
+        // the 30-second resets: off until you turn them on
+        let resetItem = NSMenuItem(title: "30-Second Resets", action: nil, keyEquivalent: "")
+        let resetMenu = NSMenu()
+        for (i, kind) in Reset.allCases.enumerated() {
+            let now = NSMenuItem(title: kind.menuTitle, action: #selector(startReset(_:)), keyEquivalent: ""); now.target = self; now.tag = i
+            resetMenu.addItem(now)
+        }
+        resetMenu.addItem(NSMenuItem.separator())
+        let offer = NSMenuItem(title: "Offer Them Between Yoga Breaks", action: #selector(toggleResets(_:)), keyEquivalent: ""); offer.target = self
+        offer.state = Reset.enabled ? .on : .off
+        resetMenu.addItem(offer)
+        let voice = NSMenuItem(title: "With His Voice", action: #selector(toggleResetVoice(_:)), keyEquivalent: ""); voice.target = self
+        voice.state = Reset.withVoice ? .on : .off
+        resetMenu.addItem(voice)
+        resetItem.submenu = resetMenu
+        if Reset.isAvailable { menu.addItem(resetItem) }
+
         let outfitItem = NSMenuItem(title: "Outfit", action: nil, keyEquivalent: "")
         let outfitMenu = NSMenu()
         for (i, o) in Outfit.allCases.enumerated() where o.isAvailable {
@@ -301,6 +318,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func startFocus(_ sender: NSMenuItem) { controller?.characters.first?.colleague.startFocus(minutes: sender.tag) }
     @objc func startYoga() { if let c = controller?.characters.first { YogaBreak.shared.start(with: c) } }
     @objc func toggleYogaAfterWork(_ sender: NSMenuItem) { YogaBreak.remindAfterWork.toggle(); sender.state = YogaBreak.remindAfterWork ? .on : .off }
+    @objc func startReset(_ sender: NSMenuItem) { controller?.characters.first?.colleague.doReset(Reset.allCases[sender.tag]) }
+    @objc func toggleResets(_ sender: NSMenuItem) { Reset.enabled.toggle(); sender.state = Reset.enabled ? .on : .off }
+    @objc func toggleResetVoice(_ sender: NSMenuItem) { Reset.withVoice.toggle(); sender.state = Reset.withVoice ? .on : .off }
     @objc func setUpQuiet() { controller?.characters.first?.setUpQuietFocus() }
     @objc func wearOutfit(_ sender: NSMenuItem) { controller?.characters.first?.wear(Outfit.allCases[sender.tag]) }
     @objc func renameHim() { controller?.characters.first?.renameMe() }

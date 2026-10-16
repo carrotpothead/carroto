@@ -313,6 +313,7 @@ final class Colleague {
         if isWatching { return }
         welcomeBack(away: away)
         yogaTick(now: now, away: away)
+        resetTick(now: now, away: away)
     }
 
     // MARK: yoga breaks
@@ -326,7 +327,7 @@ final class Colleague {
         guard YogaBreak.isAvailable else { return }
         let yoga = YogaBreak.shared
         if away > 300 { activeSince = now; stretchNudged = false }
-        guard !yoga.isRunning, !yoga.invite.isOpen, !ask.isOpen, !isFocusing, away < 30,
+        guard !yoga.isRunning, !yoga.invite.isOpen, !ask.isOpen, !isFocusing, !isResetting, away < 30,
               now >= yogaSnoozeUntil, !YogaBreak.declinedToday else { return }
         if YogaBreak.remindAfterWork, !stretchNudged, now - activeSince > YogaBreak.workMinutes * 60 {
             stretchNudged = true
@@ -350,6 +351,75 @@ final class Colleague {
     /// after a break: the work clock starts again
     func yogaDone() {
         activeSince = CACurrentMediaTime(); stretchNudged = false; yogaSnoozeUntil = 0
+        lastYogaAt = activeSince
+    }
+
+    // MARK: 30-second resets (Resets.swift)
+
+    private var lastYogaAt: CFTimeInterval = -.infinity
+    private var lastResetAt: CFTimeInterval = -.infinity
+    private var resetUntil: CFTimeInterval = 0
+    /// in the middle of one (no startled hops till it's done)
+    var isResetting: Bool { CACurrentMediaTime() < resetUntil }
+    private var heldForReset: [() -> Void] = []
+
+    /// While a reset's playing, his own pings (permission asks, "waiting", "done") wait and come right after it, a
+    /// couple of seconds apart. macOS's own notifications are left alone.
+    func holdDuringReset(_ ping: @escaping () -> Void) -> Bool {
+        guard isResetting else { return false }
+        heldForReset.append(ping)
+        return true
+    }
+
+    private func releaseHeld() {
+        let held = heldForReset
+        heldForReset.removeAll()
+        for (i, ping) in held.enumerated() { DispatchQueue.main.asyncAfter(deadline: .now() + 0.6 + Double(i) * 2.5) { ping() } }
+    }
+
+    /// After ~20 minutes of screen time he offers a little reset, eyes first, then shoulders. Never within 20 minutes of
+    /// the last one, and never within 10 minutes of a yoga break (just after one, or when one is about due).
+    private func resetTick(now: CFTimeInterval, away: CFTimeInterval) {
+        guard Reset.enabled, !Reset.declinedToday, Reset.isAvailable, let c = carrot else { return }
+        let yoga = YogaBreak.shared
+        guard !yoga.isRunning, !yoga.invite.isOpen, !ask.isOpen, !holdsStill, !c.isAsleep, away < 30, now >= resetUntil else { return }
+        let m = 60.0, clear = Reset.yogaClearanceMinutes * m
+        guard now - activeSince > Reset.firstAfterMinutes * m, now - lastResetAt > Reset.gapMinutes * m, now - lastYogaAt > clear else { return }
+        if YogaBreak.remindAfterWork, !stretchNudged, now > activeSince + YogaBreak.workMinutes * m - clear { return }   // yoga's nearly due
+        if yogaSnoozeUntil > now { return }                                                                             // (it asks again in 10)
+        offerReset(Reset.next)
+    }
+
+    func offerReset(_ kind: Reset) {
+        guard let c = carrot else { return }
+        lastResetAt = CACurrentMediaTime()
+        c.playCompletionSound()
+        YogaBreak.shared.invite.show(title: kind.title, detail: kind.detail, above: c.window.frame) { [weak self] answer in
+            guard let self, let c = self.carrot else { return }
+            switch answer {
+            case .go: self.doReset(kind)
+            case .later: self.lastResetAt = CACurrentMediaTime() - (Reset.gapMinutes - 10) * 60; c.say("ok! i'll ask again in 10.", for: 3)
+            case .notToday: Reset.declinedToday = true; c.say("no worries. tomorrow 🥕", for: 3)
+            }
+        }
+    }
+
+    /// He sits on his stool and does it with you; what to do comes up in his bubble.
+    func doReset(_ kind: Reset) {
+        guard let c = carrot else { return }
+        Reset.next = kind.following
+        lastResetAt = CACurrentMediaTime()
+        let start = c.clips["sitin"]?.duration ?? 0
+        let length = c.clips[kind.clip]?.duration ?? 30
+        resetUntil = lastResetAt + start + length + (c.clips["sitout"]?.duration ?? 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + (resetUntil - lastResetAt) + 0.05) { [weak self] in self?.releaseHeld() }
+        c.perform(kind.clip)
+        kind.speak()
+        let lines = kind.lines
+        for (i, line) in lines.enumerated() {
+            let until = i + 1 < lines.count ? lines[i + 1].at : length
+            DispatchQueue.main.asyncAfter(deadline: .now() + start + line.at) { [weak c] in c?.say(line.text, for: until - line.at - 0.2) }
+        }
     }
 
     // MARK: focusing together

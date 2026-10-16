@@ -46,6 +46,9 @@ class LilAgentsController {
             "feed": ("feed-carrot-01", 4.0),
             "watchin": ("watchin-carrot-01", 1.8),
             "watchout": ("watchout-carrot-01", 1.4),
+            "far": ("far-carrot-01", 20.0),         // the 30-second resets (Resets.swift)
+            "cactus": ("cactus-carrot-01", 30.0),
+            "sitin": ("sitin-carrot-01", 1.2), "sitout": ("sitout-carrot-01", 1.4),   // (onto his stool and off again)
         ]
         carrot.loops = ["sleep": "sleep-carrot-01", "dangle": "dangle-carrot-01", "focus": "focus-carrot-01", "watch": "watch-carrot-01"]
         carrot.napAfter = 10 * 60

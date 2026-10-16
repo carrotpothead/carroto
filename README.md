@@ -43,6 +43,10 @@ macOS 14 or later, Apple silicon or Intel.
   in 10, or not today: it's an invitation, never a block). Say yes and the screen frosts over while he and Dig lead a
   5-minute chair stretch with his voice and subtitles. Esc ends it any time. Menu bar → *Yoga Break* to start one
   now or turn the reminder off.
+- **does 30-second resets with you** (new in 1.2): little ones between yoga breaks, right there on the dock. He sits
+  on his stool and talks you through it: **eyes** (look far away with him for 20 seconds) or **shoulders** (a cactus
+  squeeze, then a gentle neck stretch each way). Off until you turn them on: menu bar → *30-Second Resets*. About
+  one between yoga breaks, never close to one, and the same *in 10* / *not today*. His own pings wait until you're done.
 - **keeps you company**: a focus timer (25 or 50 minutes) that hides chatty apps, plus an optional DND mode;
   a lunch alarm; and when a video's playing he turns round with his popcorn and watches it with you.
 - **has a dog**: Dig follows him, wags, lies down while carroto is busy, sleeps when he naps, does a trick every

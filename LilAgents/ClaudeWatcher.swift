@@ -113,24 +113,30 @@ final class ClaudeWatcher {
             respond(c)
             let type = info["notification_type"] as? String ?? ""
             if type == "idle_prompt" || type == "agent_needs_input" || type == "elicitation_dialog" {
-                carrot?.playCompletionSound()
-                carrot?.say("\(Self.who(info))'s waiting for you\(Self.project(info)).", for: 6)
+                let ping = { [weak self] in self?.carrot?.playCompletionSound(); self?.carrot?.say("\(Self.who(info))'s waiting for you\(Self.project(info)).", for: 6) }
+                if carrot?.colleague.holdDuringReset(ping) != true { ping() }   // (after a 30-second reset, if one's playing)
             }
         case "/stop":
             respond(c)
             let now = CACurrentMediaTime()
             guard now - lastStop > 20 else { return }      // (several in a row: once is enough)
             lastStop = now
-            carrot?.playCompletionSound()
             let w = Self.who(info)
-            carrot?.say(["\(w)'s done\(Self.project(info)). ✨", "\(w) finished\(Self.project(info)). go look.", "done\(Self.project(info)). nice one, \(w)."].randomElement()!, for: 5)
+            let ping = { [weak self] in self?.carrot?.playCompletionSound(); self?.carrot?.say(["\(w)'s done\(Self.project(info)). ✨", "\(w) finished\(Self.project(info)). go look.", "done\(Self.project(info)). nice one, \(w)."].randomElement()!, for: 5) }
+            if carrot?.colleague.holdDuringReset(ping) != true { ping() }
         default:
             respond(c)
         }
     }
 
+    private var nextHeld = false
+
     private func showNext() {
         guard let next = queue.first, let c = carrot else { panel.close(); return }
+        if c.colleague.isResetting {                    // (it waits for a 30-second reset to finish, then pops up)
+            if !nextHeld { nextHeld = c.colleague.holdDuringReset { [weak self] in self?.nextHeld = false; self?.showNext() } }
+            return
+        }
         c.playCompletionSound()
         if !c.colleague.isFocusing { c.perform("land") }   // a little startled hop so you notice
         panel.show(title: "\(Self.who(next.info)) wants to\(Self.project(next.info)):", detail: Self.describe(next.info), waiting: queue.count - 1,
