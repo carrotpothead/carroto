@@ -62,6 +62,11 @@ class WalkerCharacter {
     private var idleLayer: AVPlayerLayer?
     private var trickPlayer = AVPlayer()
     private var trickLayer: AVPlayerLayer?
+    /// a second one-off player, so the next clip loads behind the current one (they swap every clip)
+    private var spareTrickPlayer = AVPlayer()
+    private var spareTrickLayer: AVPlayerLayer?
+    /// bumped by every switch, so a clip still loading doesn't pop up after something else took over
+    private var showToken = 0
     private(set) var isDoingTrick = false
     private var trickEndTime: CFTimeInterval = 0
 
@@ -985,7 +990,7 @@ class WalkerCharacter {
     //   once  - a one-off clip (tricks, lunch, dozing off, waking, landing)
     //   loop  - a held state (asleep, dangling while dragged)
 
-    private var allLayers: [AVPlayerLayer] { [playerLayer, idleLayer, trickLayer, loopLayer].compactMap { $0 } }
+    private var allLayers: [AVPlayerLayer] { [playerLayer, idleLayer, trickLayer, spareTrickLayer, loopLayer].compactMap { $0 } }
     private let loopPlayer = AVQueuePlayer()
     private var loopLooper: AVPlayerLooper?
     private var loopLayer: AVPlayerLayer?
@@ -1027,12 +1032,14 @@ class WalkerCharacter {
             idleLayer = makeLayer(player, in: view)
         }
         trickLayer = makeLayer(trickPlayer, in: view)
+        spareTrickLayer = makeLayer(spareTrickPlayer, in: view)
         loopLayer = makeLayer(loopPlayer, in: view)
         standStill()
     }
 
     /// Only one video shows at a time.
     private func show(_ layer: AVPlayerLayer?) {
+        showToken += 1
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         for l in allLayers { l.isHidden = l !== layer }
@@ -1040,6 +1047,21 @@ class WalkerCharacter {
         if layer !== idleLayer { idlePlayer?.pause() }
         if layer !== loopLayer { loopPlayer.pause(); loopingName = nil }
         if layer !== trickLayer { trickPlayer.pause() }
+        if layer !== spareTrickLayer { spareTrickPlayer.pause() }
+    }
+
+    /// Switch to `layer` once its clip has a frame to show (the old one stays up till then), so there's never an
+    /// empty frame between clips.
+    private func showWhenReady(_ layer: AVPlayerLayer?, loaded: @escaping () -> Bool, then: @escaping () -> Void) {
+        guard let layer else { return }
+        showToken += 1
+        let token = showToken, start = CACurrentMediaTime()
+        func check() {
+            guard token == showToken else { return }   // (something else is showing now)
+            if (loaded() && layer.isReadyForDisplay) || CACurrentMediaTime() - start > 0.4 { show(layer); then(); return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0 / 120) { check() }
+        }
+        check()
     }
 
     /// Standing around: the breathing loop if there is one, otherwise the walk video's first frame.
@@ -1057,11 +1079,16 @@ class WalkerCharacter {
         guard let url = Outfit.url(video) else { then?(); return }
         isDoingTrick = true
         onceDone = then
-        trickEndTime = CACurrentMediaTime() + duration
-        trickPlayer.replaceCurrentItem(with: AVPlayerItem(url: url))
-        trickPlayer.seek(to: .zero)
-        show(trickLayer)
-        trickPlayer.play()
+        trickEndTime = CACurrentMediaTime() + duration + 0.5   // (set properly once it shows)
+        swap(&trickPlayer, &spareTrickPlayer); swap(&trickLayer, &spareTrickLayer)
+        let player = trickPlayer, item = AVPlayerItem(url: url)
+        var seeked = false   // (the layer can still say "ready" for its last clip: wait for this one's first frame)
+        player.replaceCurrentItem(with: item)
+        player.seek(to: .zero) { _ in DispatchQueue.main.async { seeked = true } }
+        showWhenReady(trickLayer, loaded: { seeked && item.status == .readyToPlay && player.currentItem === item }) { [weak self] in
+            self?.trickEndTime = CACurrentMediaTime() + duration
+            player.play()
+        }
         onTrick?(video)   // (his dog joins in with the yoga, however it started)
     }
 
@@ -1075,11 +1102,13 @@ class WalkerCharacter {
               let url = Outfit.url(video) else { return }
         isDoingTrick = false
         onceDone = nil
-        show(loopLayer)
         loopingName = name
         loopPlayer.removeAllItems()
         loopLooper = AVPlayerLooper(player: loopPlayer, templateItem: AVPlayerItem(asset: AVAsset(url: url)))
-        loopPlayer.play()
+        showWhenReady(loopLayer, loaded: { [weak self] in self?.loopPlayer.currentItem?.status == .readyToPlay }) { [weak self] in
+            self?.loopingName = name   // (show() clears it when the loop isn't what's showing)
+            self?.loopPlayer.play()
+        }
     }
 
     func stopLoop() {
@@ -1100,7 +1129,7 @@ class WalkerCharacter {
     private func finishTrick() {
         isDoingTrick = false
         onceDone = nil
-        trickPlayer.pause()
+        trickPlayer.pause(); spareTrickPlayer.pause()
         standStill()
     }
 
@@ -1245,6 +1274,9 @@ class WalkerCharacter {
             if let t = tricks.first(where: { $0.video.hasPrefix(name) }) { playOnce(t.video, duration: t.duration) }
         }
     }
+
+    /// Take down whatever's in his speech bubble (the next frame hides it).
+    func stopSaying() { if showingCompletion { completionBubbleExpiry = 0 } }
 
     /// A short line in his speech bubble.
     func say(_ text: String, for seconds: CFTimeInterval) {

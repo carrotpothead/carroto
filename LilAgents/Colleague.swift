@@ -313,6 +313,7 @@ final class Colleague {
         if isWatching { return }
         welcomeBack(away: away)
         yogaTick(now: now, away: away)
+        if !isResetting, !heldForReset.isEmpty { releaseHeld() }   // (e.g. the invitation closed some other way)
         resetTick(now: now, away: away)
     }
 
@@ -360,7 +361,9 @@ final class Colleague {
     private var lastResetAt: CFTimeInterval = -.infinity
     private var resetUntil: CFTimeInterval = 0
     /// in the middle of one (no startled hops till it's done)
-    var isResetting: Bool { CACurrentMediaTime() < resetUntil }
+    var isResetting: Bool { CACurrentMediaTime() < resetUntil || (resetInviteOpen && YogaBreak.shared.invite.isOpen) }
+    /// a reset's invitation is up (pings wait from here, so nothing lands on top of it or the sit-down)
+    private var resetInviteOpen = false
     private var heldForReset: [() -> Void] = []
 
     /// While a reset's playing, his own pings (permission asks, "waiting", "done") wait and come right after it, a
@@ -394,12 +397,14 @@ final class Colleague {
         guard let c = carrot else { return }
         lastResetAt = CACurrentMediaTime()
         c.playCompletionSound()
+        resetInviteOpen = true
         YogaBreak.shared.invite.show(title: kind.title, detail: kind.detail, above: c.window.frame) { [weak self] answer in
             guard let self, let c = self.carrot else { return }
+            self.resetInviteOpen = false
             switch answer {
             case .go: self.doReset(kind)
-            case .later: self.lastResetAt = CACurrentMediaTime() - (Reset.gapMinutes - 10) * 60; c.say("ok! i'll ask again in 10.", for: 3)
-            case .notToday: Reset.declinedToday = true; c.say("no worries. tomorrow 🥕", for: 3)
+            case .later: self.lastResetAt = CACurrentMediaTime() - (Reset.gapMinutes - 10) * 60; c.say("ok! i'll ask again in 10.", for: 3); self.releaseHeld()
+            case .notToday: Reset.declinedToday = true; c.say("no worries. tomorrow 🥕", for: 3); self.releaseHeld()
             }
         }
     }
@@ -412,6 +417,7 @@ final class Colleague {
         let start = c.clips["sitin"]?.duration ?? 0
         let length = c.clips[kind.clip]?.duration ?? 30
         resetUntil = lastResetAt + start + length + (c.clips["sitout"]?.duration ?? 0)
+        c.stopSaying()   // (a clean bubble for his first line)
         DispatchQueue.main.asyncAfter(deadline: .now() + (resetUntil - lastResetAt) + 0.05) { [weak self] in self?.releaseHeld() }
         c.perform(kind.clip)
         kind.speak()
